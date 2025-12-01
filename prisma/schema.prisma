@@ -1,0 +1,183 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  image       String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  content     String?  // Detailed description (HTML/Markdown)
+  images      ProductImage[]
+  
+  // Technical Specs
+  dimensions  String?
+  weight      String?
+  material    String?
+  videoUrl    String?
+  
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+  
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  
+  isFeatured  Boolean  @default(false)
+  order       Int      @default(0)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PostCategory {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String
+  image       String?
+  published   Boolean  @default(false)
+  publishedAt DateTime?
+  
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+  
+  categoryId  String?
+  category    PostCategory? @relation(fields: [categoryId], references: [id])
+  
+  authorId    String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Settings {
+  id             String @id @default("default") // Singleton
+  siteName       String @default("Beton Kalıp")
+  logo           String?
+  favicon        String?
+  
+  // Contact Info
+  phone          String?
+  email          String?
+  address        String?
+  whatsapp       String?
+  mapEmbedUrl    String? // Google Maps iframe src
+  
+  // Hero Section
+  heroTitle      String?
+  heroSubtitle   String?
+  heroImage      String?
+  
+  // Colors (Theme)
+  primaryColor   String?
+  secondaryColor String?
+
+  // About Page
+  aboutTitle    String?
+  aboutContent  String?
+  aboutImage    String?
+  missionTitle  String?
+  missionContent String?
+  visionTitle   String?
+  visionContent String?
+  
+  // SEO
+  homeMetaTitle       String?
+  homeMetaDescription String?
+  
+  updatedAt      DateTime @updatedAt
+}
+
+model ContactForm {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Reference {
+  id          String   @id @default(cuid())
+  name        String   // Şirket/Proje adı
+  description String?  // Kısa açıklama
+  logo        String?  // Logo/Görsel
+  website     String?  // Web sitesi
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model HeroSlide {
+  id          String   @id @default(cuid())
+  title       String   // Ana başlık
+  subtitle    String?  // Alt başlık
+  image       String   // Arka plan görseli
+  ctaText     String?  // CTA buton metni
+  ctaLink     String?  // CTA buton linki
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  url       String
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Catalog {
+  id          String   @id @default(cuid())
+  name        String
+  fileUrl     String   // PDF file
+  coverImage  String?  // Optional cover image
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
