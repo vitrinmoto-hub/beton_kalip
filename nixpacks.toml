@@ -3,13 +3,12 @@ DATABASE_URL = "postgresql://postgres:PhwfwyzG4F9JDwG7dfHZQc7U2r7i8vSX8GaoFTgM2g
 PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING = "1"
 PRISMA_CLI_QUERY_ENGINE_TYPE = "binary"
 PRISMA_CLIENT_ENGINE_TYPE = "binary"
-PRISMA_SKIP_POSTINSTALL_GENERATE = "true"
 
 [phases.setup]
 aptPkgs = ["curl", "wget", "openssl", "ca-certificates", "procps"]
 
 [phases.install]
-cmds = ["npm ci --ignore-scripts"]
+cmds = ["npm ci"]
 
 [phases.build]
 cmds = ["npx prisma generate", "npm run build"]
