@@ -1,0 +1,4 @@
+[variables]
+DATABASE_URL = "postgresql://postgres:PhwfwyzG4F9JDwG7dfHZQc7U2r7i8vSX8GaoFTgM2gQbTb2lrQQyRaXznpyxX0Pu@postgres:5432/postgres"
+PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING = "1"
+PRISMA_CLI_QUERY_ENGINE_TYPE = "binary"
