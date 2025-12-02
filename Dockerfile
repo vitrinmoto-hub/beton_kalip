@@ -10,11 +10,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install dependencies
+# Install dependencies (Prisma will generate via postinstall)
 RUN npm ci
-
-# Generate Prisma Client
-RUN npx prisma generate
 
 # Build stage
 FROM node:22-alpine AS builder
