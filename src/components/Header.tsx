@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Menu, Phone, Mail } from 'lucide-react';
+import { Phone, Mail } from 'lucide-react';
+import MobileMenu from './MobileMenu';
 import { getSettings } from '@/actions/settings-actions';
 
 export default async function Header() {
@@ -103,9 +104,7 @@ export default async function Header() {
             </Link>
 
             {/* Mobile Menu Button */}
-            <button className="lg:hidden p-3 text-[var(--color-dark)] hover:bg-gray-100 rounded-lg transition-colors">
-              <Menu size={26} />
-            </button>
+            <MobileMenu />
           </div>
         </div>
       </header>
