@@ -22,8 +22,9 @@ RUN chmod +x /app/prisma/engines/* || true
 RUN npm install
 
 # Prisma client oluştur - yerel binary'leri kullan
-RUN PRISMA_QUERY_ENGINE_LIBRARY=/app/prisma/engines/libquery_engine.so.node \
-    npx prisma generate
+ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/prisma/engines/libquery_engine.so.node
+ENV PRISMA_SKIP_POSTINSTALL_GENERATE=1
+RUN npx prisma generate
 
 # Uygulama kodunu kopyala
 COPY . .
