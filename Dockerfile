@@ -24,7 +24,9 @@ RUN npm install
 # Prisma client oluştur - yerel binary'leri kullan
 ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/prisma/engines/libquery_engine.so.node
 ENV PRISMA_SKIP_POSTINSTALL_GENERATE=1
-RUN npx prisma generate
+ENV PRISMA_DISABLE_TELEMETRY=1
+ENV PRISMA_ENGINE_OFFLINE=1
+RUN npx prisma generate --no-engine-download
 
 # Uygulama kodunu kopyala
 COPY . .
