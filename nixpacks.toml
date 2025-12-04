@@ -1,6 +1,10 @@
 [variables]
 DATABASE_URL = "postgresql://postgres:PhwfwyzG4F9JDwG7dfHZQc7U2r7i8vSX8GaoFTgM2gQbTb2lrQQyRaXznpyxX0Pu@213.142.151.108:5432/postgres"
 NIXPACKS_NODE_VERSION = "20"
+PRISMA_QUERY_ENGINE_LIBRARY = "/app/prisma/engines/libquery_engine.so.node"
+PRISMA_SKIP_POSTINSTALL_GENERATE = "1"
+PRISMA_DISABLE_TELEMETRY = "1"
+PRISMA_ENGINE_OFFLINE = "1"
 
 [phases.setup]
 aptPkgs = ["curl", "wget", "openssl", "ca-certificates", "procps"]
@@ -9,7 +13,7 @@ aptPkgs = ["curl", "wget", "openssl", "ca-certificates", "procps"]
 cmds = ["npm ci"]
 
 [phases.build]
-cmds = ["npx prisma generate", "npx prisma db push --skip-generate", "npm run build"]
+cmds = ["chmod +x prisma/engines/*", "npx prisma generate --no-engine-download --binary-paths=prisma/engines", "npx prisma db push --skip-generate", "npm run build"]
 
 [start]
 cmd = "npm run start"
