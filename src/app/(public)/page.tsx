@@ -42,7 +42,7 @@ export default async function Home() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {categories.map((category) => (
+          {categories.map((category: { id: string; name: string; slug: string; image: string | null; _count?: { products: number } }) => (
             <Link
               key={category.id}
               href={`/products?category=${category.slug}`}
