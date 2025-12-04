@@ -81,7 +81,7 @@ export default async function AdminDashboard() {
                     {recentProducts.length === 0 ? (
                         <p className="text-gray-500 text-center py-4">Henüz aktivite yok.</p>
                     ) : (
-                        recentProducts.map((product) => (
+                        recentProducts.map((product: { id: string; name: string; createdAt: Date }) => (
                             <div key={product.id} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
                                 <div className="flex items-center gap-4">
                                     <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500">

@@ -22,7 +22,7 @@ export default async function BlogPage() {
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {posts && posts.length > 0 ? (
-                        posts.map((post) => (
+                        posts.map((post: { id: string; title: string; slug: string; excerpt: string | null; image: string | null; publishedAt: Date | null; createdAt: Date; authorId: string | null }) => (
                             <article key={post.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
                                 <div className="h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-400 dark:text-gray-500">
                                     {post.image ? (

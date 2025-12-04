@@ -54,7 +54,7 @@ export default async function AdminProductsPage() {
                                 </td>
                             </tr>
                         ) : (
-                            products.map((product) => (
+                            products.map((product: { id: string; name: string; description: string | null; images: { url: string }[]; category: { id: string; name: string; slug: string }; isFeatured: boolean; dimensions: string | null; weight: string | null; material: string | null }) => (
                                 <tr key={product.id} className="hover:bg-gray-50">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-4">

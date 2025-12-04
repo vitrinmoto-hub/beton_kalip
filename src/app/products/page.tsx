@@ -55,7 +55,7 @@ export default async function ProductsPage({
                                         Tümü ({allProducts.length})
                                     </Link>
                                 </li>
-                                {categories.map((cat) => (
+                                {categories.map((cat: { id: string; name: string; slug: string; _count?: { products: number } }) => (
                                     <li key={cat.id}>
                                         <Link
                                             href={`/products?category=${cat.slug}`}
@@ -84,7 +84,7 @@ export default async function ProductsPage({
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {products.map((product) => (
+                                {products.map((product: { id: string; name: string; slug: string; description: string | null; images: { url: string }[]; category: { id: string; name: string; slug: string } }) => (
                                     <Link
                                         key={product.id}
                                         href={`/products/${product.slug}`}
