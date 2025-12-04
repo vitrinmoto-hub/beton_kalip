@@ -33,7 +33,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     {/* Image Gallery */}
                     <ImageGallery
-                        images={product.images.map(img => ({ url: img.url, alt: product.name }))}
+                        images={product.images.map((img: { url: string }) => ({ url: img.url, alt: product.name }))}
                         productName={product.name}
                     />
 
