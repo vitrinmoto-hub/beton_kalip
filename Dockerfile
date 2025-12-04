@@ -8,9 +8,11 @@ RUN apt-get update && \
     apt-get install -y openssl ca-certificates curl wget && \
     rm -rf /var/lib/apt/lists/*
 
-# Prisma için network ayarları
+# Prisma için network ayarları - GitHub mirror kullan
+ENV PRISMA_ENGINES_MIRROR="https://binaries.prisma.sh"
 ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
 ENV PRISMA_CLI_QUERY_ENGINE_TYPE=binary
+ENV PRISMA_BINARIES_MIRROR="https://github.com/nicksrandall/prisma-binary-mirror/releases/download"
 ENV DEBUG=prisma:*
 
 # Package dosyalarını kopyala
