@@ -32,7 +32,7 @@ export default async function ReferencesPage() {
                     </div>
                 ) : (
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                        {references.map((reference) => (
+                        {references.map((reference: { id: string; name: string; description: string | null; logo: string | null; website: string | null }) => (
                             <div
                                 key={reference.id}
                                 className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all group"
