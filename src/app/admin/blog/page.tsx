@@ -5,6 +5,9 @@ import { DeletePostButton } from './DeletePostButton';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
 
+// Force dynamic rendering to avoid database connection during build
+export const dynamic = 'force-dynamic';
+
 export default async function AdminBlogPage() {
     const result = await getPosts();
     const posts = (result.success && result.data) ? result.data : [];

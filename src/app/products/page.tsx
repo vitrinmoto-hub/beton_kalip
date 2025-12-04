@@ -2,6 +2,9 @@ import Link from 'next/link';
 import { getProducts } from '@/actions/product-actions';
 import { getCategories } from '@/actions/category-actions';
 
+// Force dynamic rendering to avoid database connection during build
+export const dynamic = 'force-dynamic';
+
 export default async function ProductsPage({
     searchParams,
 }: {
@@ -48,8 +51,8 @@ export default async function ProductsPage({
                                     <Link
                                         href="/products"
                                         className={`transition-colors text-left w-full block px-3 py-2 rounded-md ${!selectedCategory
-                                                ? 'bg-[var(--color-primary)] text-white font-semibold'
-                                                : 'text-gray-600 hover:text-[var(--color-primary)] hover:bg-gray-50'
+                                            ? 'bg-[var(--color-primary)] text-white font-semibold'
+                                            : 'text-gray-600 hover:text-[var(--color-primary)] hover:bg-gray-50'
                                             }`}
                                     >
                                         Tümü ({allProducts.length})
@@ -60,8 +63,8 @@ export default async function ProductsPage({
                                         <Link
                                             href={`/products?category=${cat.slug}`}
                                             className={`transition-colors text-left w-full block px-3 py-2 rounded-md ${selectedCategory === cat.slug
-                                                    ? 'bg-[var(--color-primary)] text-white font-semibold'
-                                                    : 'text-gray-600 hover:text-[var(--color-primary)] hover:bg-gray-50'
+                                                ? 'bg-[var(--color-primary)] text-white font-semibold'
+                                                : 'text-gray-600 hover:text-[var(--color-primary)] hover:bg-gray-50'
                                                 }`}
                                         >
                                             {cat.name} ({cat._count?.products || 0})

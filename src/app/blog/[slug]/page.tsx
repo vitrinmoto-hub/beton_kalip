@@ -6,6 +6,9 @@ import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import 'react-quill-new/dist/quill.snow.css';
 
+// Force dynamic rendering to avoid database connection during build
+export const dynamic = 'force-dynamic';
+
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const { data: post } = await getPostBySlug(slug);

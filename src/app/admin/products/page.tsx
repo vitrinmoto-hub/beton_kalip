@@ -3,6 +3,9 @@ import { Package, Plus, Pencil, Trash2 } from 'lucide-react';
 import { getProducts } from '@/actions/product-actions';
 import { DeleteProductButton } from './DeleteProductButton';
 
+// Force dynamic rendering to avoid database connection during build
+export const dynamic = 'force-dynamic';
+
 export default async function AdminProductsPage() {
     const result = await getProducts();
     const products = (result.success && result.data) ? result.data : [];

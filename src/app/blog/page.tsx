@@ -4,6 +4,9 @@ import { getPosts } from '@/actions/blog-actions';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
 
+// Force dynamic rendering to avoid database connection during build
+export const dynamic = 'force-dynamic';
+
 export default async function BlogPage() {
     const { data: posts } = await getPosts({ status: 'Yayında' });
 

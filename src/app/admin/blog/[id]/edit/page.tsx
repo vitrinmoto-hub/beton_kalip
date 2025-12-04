@@ -4,6 +4,9 @@ import { notFound } from 'next/navigation';
 import { getPostById } from '@/actions/blog-actions';
 import { BlogPostForm } from '../../BlogPostForm';
 
+// Force dynamic rendering to avoid database connection during build
+export const dynamic = 'force-dynamic';
+
 export default async function EditBlogPostPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const result = await getPostById(id);

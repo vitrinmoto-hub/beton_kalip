@@ -1,6 +1,9 @@
 import { getActiveReferences } from '@/actions/reference-actions';
 import { Building2, ExternalLink } from 'lucide-react';
 
+// Force dynamic rendering to avoid database connection during build
+export const dynamic = 'force-dynamic';
+
 export default async function ReferencesPage() {
     const result = await getActiveReferences();
     const references = (result.success && result.data) ? result.data : [];

@@ -3,6 +3,9 @@ import { ArrowLeft } from 'lucide-react';
 import { getCategories } from '@/actions/category-actions';
 import { ProductForm } from '../ProductForm';
 
+// Force dynamic rendering to avoid database connection during build
+export const dynamic = 'force-dynamic';
+
 export default async function NewProductPage() {
     const categoriesResult = await getCategories();
     const categories = (categoriesResult.success && categoriesResult.data) ? categoriesResult.data : [];

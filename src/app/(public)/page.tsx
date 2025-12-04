@@ -9,6 +9,9 @@ import { getSettings } from "@/actions/settings-actions";
 import { Package } from "lucide-react";
 import type { Metadata } from "next";
 
+// Force dynamic rendering to avoid database connection during build
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(): Promise<Metadata> {
   const result = await getSettings();
   const settings = result.success ? result.data : null;

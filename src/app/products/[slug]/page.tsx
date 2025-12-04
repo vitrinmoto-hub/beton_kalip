@@ -4,6 +4,9 @@ import { getProductBySlug } from '@/actions/product-actions';
 import { notFound } from 'next/navigation';
 import { ImageGallery } from '@/components/ImageGallery';
 
+// Force dynamic rendering to avoid database connection during build
+export const dynamic = 'force-dynamic';
+
 export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const result = await getProductBySlug(slug);
