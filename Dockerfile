@@ -8,22 +8,25 @@ RUN apt-get update && \
     apt-get install -y openssl ca-certificates curl wget && \
     rm -rf /var/lib/apt/lists/*
 
-# Prisma için network ayarları - GitHub mirror kullan
-ENV PRISMA_ENGINES_MIRROR="https://binaries.prisma.sh"
+# Prisma için network ayarları
 ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
 ENV PRISMA_CLI_QUERY_ENGINE_TYPE=binary
-ENV PRISMA_BINARIES_MIRROR="https://github.com/nicksrandall/prisma-binary-mirror/releases/download"
-ENV DEBUG=prisma:*
+ENV PRISMA_CLIENT_ENGINE_TYPE=binary
 
 # Package dosyalarını kopyala
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Bağımlılıkları yükle (retry logic ile)
-RUN npm install || npm install || npm install
+# Bağımlılıkları yükle
+RUN npm install
 
-# Prisma client'ı oluştur (retry logic ile)
-RUN npx prisma generate || npx prisma generate || npx prisma generate
+# Prisma binary'lerini manuel indir (timeout 10 dakika)
+RUN for i in 1 2 3 4 5; do \
+    echo "Prisma generate deneme $i..." && \
+    timeout 600 npx prisma generate && break || \
+    echo "Deneme $i başarısız, 30 saniye bekliyor..." && \
+    sleep 30; \
+    done
 
 # Uygulama kodunu kopyala
 COPY . .
