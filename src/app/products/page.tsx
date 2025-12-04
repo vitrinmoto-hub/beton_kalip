@@ -20,7 +20,7 @@ export default async function ProductsPage({
 
     // Filter products by selected category
     const products = selectedCategory
-        ? allProducts.filter(p => p.category.slug === selectedCategory)
+        ? allProducts.filter((p: { category: { slug: string } }) => p.category.slug === selectedCategory)
         : allProducts;
 
     return (
