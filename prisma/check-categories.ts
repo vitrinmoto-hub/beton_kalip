@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-check
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -13,7 +13,7 @@ async function main() {
     });
 
     console.log('=== KATEGORİLER ===\n');
-    categories.forEach(cat => {
+    categories.forEach((cat: { name: string; slug: string; _count: { products: number } }) => {
         console.log(`${cat.name} (${cat.slug})`);
         console.log(`  Ürün sayısı: ${cat._count.products}`);
         console.log('---');
@@ -21,7 +21,7 @@ async function main() {
 
     const emptyCategories = categories.filter(cat => cat._count.products === 0);
     console.log('\n=== BOŞ KATEGORİLER ===');
-    emptyCategories.forEach(cat => {
+    emptyCategories.forEach((cat: { name: string; _count: { products: number } }) => {
         console.log(`- ${cat.name}`);
     });
 }

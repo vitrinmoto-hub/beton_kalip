@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 async function main() {
     const posts = await prisma.post.findMany();
     console.log('--- Database Posts ---');
-    posts.forEach((post: any) => {
+    posts.forEach((post: { title: string; slug: string }) => {
         console.log(`Title: ${post.title}`);
         console.log(`Slug:  ${post.slug}`);
         console.log('---');
