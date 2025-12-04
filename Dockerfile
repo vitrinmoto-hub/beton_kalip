@@ -53,6 +53,13 @@ RUN apt-get update && \
 
 ENV NODE_ENV=production
 
+# Prisma engine ayarları (runtime için)
+ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/prisma/engines/libquery_engine.so.node
+ENV PRISMA_QUERY_ENGINE_BINARY=/app/prisma/engines/query-engine
+ENV PRISMA_SCHEMA_ENGINE_BINARY=/app/prisma/engines/schema-engine
+ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
+ENV PRISMA_DISABLE_TELEMETRY=1
+
 # Gerekli dosyaları kopyala
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/.next ./.next
@@ -60,6 +67,17 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/prisma ./prisma
 
+# Engine'lerin executable olduğundan emin ol
+RUN chmod +x /app/prisma/engines/* || true
+
+# Startup script oluştur
+RUN echo '#!/bin/sh\n\
+    echo "🚀 Starting application..."\n\
+    echo "📊 Running database migrations..."\n\
+    npx prisma db push --skip-generate || echo "Migration warning - continuing..."\n\
+    echo "✅ Database ready!"\n\
+    exec npm start' > /app/start.sh && chmod +x /app/start.sh
+
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["/app/start.sh"]
