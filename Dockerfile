@@ -8,30 +8,29 @@ RUN apt-get update && \
     apt-get install -y openssl ca-certificates curl gzip && \
     rm -rf /var/lib/apt/lists/*
 
-# Prisma için ayarlar - YEREL BINARY KULLAN (indirme yok!)
+# Prisma için ayarlar
 ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
-ENV PRISMA_CLI_QUERY_ENGINE_TYPE=binary
-ENV PRISMA_CLIENT_ENGINE_TYPE=binary
 
 # Package dosyalarını kopyala
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Manuel olarak eklenen binary'leri aç (gzip -> normal)
+# Manuel olarak eklenen binary'leri aç
 RUN gunzip -f /app/prisma/engines/libquery_engine.so.node.gz || true
 RUN gunzip -f /app/prisma/engines/schema-engine.gz || true
 RUN gunzip -f /app/prisma/engines/query-engine.gz || true
 
-# Prisma'ya yerel binary konumlarını söyle
-ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/prisma/engines/libquery_engine.so.node
-ENV PRISMA_SCHEMA_ENGINE_BINARY=/app/prisma/engines/schema-engine
-ENV PRISMA_QUERY_ENGINE_BINARY=/app/prisma/engines/query-engine
+# Binary'lere çalıştırma izni ver
+RUN chmod +x /app/prisma/engines/* || true
 
 # Bağımlılıkları yükle
 RUN npm install
 
-# Prisma client oluştur (artık indirme yapmayacak, yerel dosyayı kullanacak)
-RUN npx prisma generate
+# Prisma client oluştur - binary konumlarını komut satırında belirt
+RUN PRISMA_QUERY_ENGINE_LIBRARY=/app/prisma/engines/libquery_engine.so.node \
+    PRISMA_SCHEMA_ENGINE_BINARY=/app/prisma/engines/schema-engine \
+    PRISMA_QUERY_ENGINE_BINARY=/app/prisma/engines/query-engine \
+    npx prisma generate
 
 # Uygulama kodunu kopyala
 COPY . .
