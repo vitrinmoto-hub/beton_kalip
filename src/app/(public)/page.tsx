@@ -99,7 +99,7 @@ export default async function Home() {
                 <p>Henüz öne çıkan ürün eklenmemiş.</p>
               </div>
             ) : (
-              featuredProducts.map((product) => (
+              featuredProducts.map((product: { id: string; name: string; slug: string; description: string | null; images: { url: string }[]; category: { id: string; name: string; slug: string } }) => (
                 <Link
                   key={product.id}
                   href={`/products/${product.slug}`}
