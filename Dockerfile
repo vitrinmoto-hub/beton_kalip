@@ -17,11 +17,13 @@ ENV PRISMA_CLIENT_ENGINE_TYPE=binary
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Manuel olarak eklenen binary'yi aç (gzip -> .so.node)
+# Manuel olarak eklenen binary'leri aç (gzip -> normal)
 RUN gunzip -f /app/prisma/engines/libquery_engine.so.node.gz || true
+RUN gunzip -f /app/prisma/engines/schema-engine.gz || true
 
-# Prisma'ya yerel binary konumunu söyle
+# Prisma'ya yerel binary konumlarını söyle
 ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/prisma/engines/libquery_engine.so.node
+ENV PRISMA_SCHEMA_ENGINE_BINARY=/app/prisma/engines/schema-engine
 
 # Bağımlılıkları yükle
 RUN npm install
