@@ -15,6 +15,9 @@ COPY prisma ./prisma/
 # Bağımlılıkları yükle
 RUN npm install
 
+# Prisma client'ı oluştur
+RUN npx prisma generate
+
 # Uygulama kodunu kopyala
 COPY . .
 
