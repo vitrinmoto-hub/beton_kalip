@@ -34,7 +34,7 @@ export default async function Catalogs() {
                         </p>
 
                         <div className="flex flex-wrap justify-center lg:justify-start gap-4">
-                            {catalogs.map((catalog) => (
+                            {catalogs.map((catalog: { id: string; name: string; fileUrl: string; coverImage: string | null }) => (
                                 <a
                                     key={catalog.id}
                                     href={catalog.fileUrl}
