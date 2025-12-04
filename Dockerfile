@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install dependencies (Prisma will generate via postinstall)
+# Install dependencies
 RUN npm ci
 
 # Build stage
@@ -22,6 +22,7 @@ WORKDIR /app
 
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
+# Copy prisma schema
 COPY --from=deps /app/prisma ./prisma
 
 # Copy application code
@@ -30,9 +31,6 @@ COPY . .
 # Set environment variables for build
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
-
-# Generate Prisma client before building (Fix for deployment)
-RUN npx prisma generate
 
 # Build Next.js application
 RUN npm run build
@@ -56,7 +54,6 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
 
 USER nextjs
 
