@@ -8,15 +8,20 @@ RUN apt-get update && \
     apt-get install -y openssl ca-certificates curl wget && \
     rm -rf /var/lib/apt/lists/*
 
+# Prisma için network ayarları
+ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
+ENV PRISMA_CLI_QUERY_ENGINE_TYPE=binary
+ENV DEBUG=prisma:*
+
 # Package dosyalarını kopyala
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Bağımlılıkları yükle
-RUN npm install
+# Bağımlılıkları yükle (retry logic ile)
+RUN npm install || npm install || npm install
 
-# Prisma client'ı oluştur
-RUN npx prisma generate
+# Prisma client'ı oluştur (retry logic ile)
+RUN npx prisma generate || npx prisma generate || npx prisma generate
 
 # Uygulama kodunu kopyala
 COPY . .
