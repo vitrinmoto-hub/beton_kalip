@@ -31,6 +31,9 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
+# Generate Prisma client before building
+RUN npx prisma generate
+
 # Build Next.js application
 RUN npm run build
 
