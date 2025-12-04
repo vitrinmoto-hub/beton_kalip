@@ -19,7 +19,7 @@ async function main() {
         console.log('---');
     });
 
-    const emptyCategories = categories.filter(cat => cat._count.products === 0);
+    const emptyCategories = categories.filter((cat: { _count: { products: number } }) => cat._count.products === 0);
     console.log('\n=== BOŞ KATEGORİLER ===');
     emptyCategories.forEach((cat: { name: string; _count: { products: number } }) => {
         console.log(`- ${cat.name}`);
