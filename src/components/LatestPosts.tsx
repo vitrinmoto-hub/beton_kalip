@@ -29,7 +29,7 @@ export default async function LatestPosts() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {posts.map((post) => (
+                {posts.map((post: { id: string; title: string; slug: string; excerpt: string | null; image?: string | null; publishedAt?: Date | null; createdAt: Date; category?: { id: string; name: string; slug: string; createdAt: Date; updatedAt: Date } | null }) => (
                     <Link
                         key={post.id}
                         href={`/blog/${post.slug}`}
@@ -51,7 +51,7 @@ export default async function LatestPosts() {
                         <div className="p-6">
                             <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
                                 <Calendar size={14} />
-                                {new Date(post.publishedAt || post.createdAt).toLocaleDateString('tr-TR')}
+                                {(post.publishedAt ? new Date(post.publishedAt) : new Date(post.createdAt)).toLocaleDateString('tr-TR')}
                                 {post.category && (
                                     <>
                                         <span>•</span>
