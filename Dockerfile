@@ -26,7 +26,9 @@ ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/prisma/engines/libquery_engine.so.node
 ENV PRISMA_SKIP_POSTINSTALL_GENERATE=1
 ENV PRISMA_DISABLE_TELEMETRY=1
 ENV PRISMA_ENGINE_OFFLINE=1
-RUN npx prisma generate --no-engine-download
+ENV PRISMA_BINARIES_MIRROR=https://binaries.prisma.sh
+ENV PRISMA_BINARIES_PATH=/app/prisma/engines
+RUN npx prisma generate --no-engine-download --binary-paths=/app/prisma/engines
 
 # Uygulama kodunu kopyala
 COPY . .
