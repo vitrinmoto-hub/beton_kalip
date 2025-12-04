@@ -3,12 +3,12 @@ FROM node:20-slim AS builder
 
 WORKDIR /app
 
-# OpenSSL ve network araçlarını yükle
+# OpenSSL ve gerekli araçları yükle
 RUN apt-get update && \
-    apt-get install -y openssl ca-certificates curl wget && \
+    apt-get install -y openssl ca-certificates curl gzip && \
     rm -rf /var/lib/apt/lists/*
 
-# Prisma için network ayarları
+# Prisma için ayarlar - YEREL BINARY KULLAN (indirme yok!)
 ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
 ENV PRISMA_CLI_QUERY_ENGINE_TYPE=binary
 ENV PRISMA_CLIENT_ENGINE_TYPE=binary
@@ -17,16 +17,17 @@ ENV PRISMA_CLIENT_ENGINE_TYPE=binary
 COPY package*.json ./
 COPY prisma ./prisma/
 
+# Manuel olarak eklenen binary'yi aç (gzip -> .so.node)
+RUN gunzip -f /app/prisma/engines/libquery_engine.so.node.gz || true
+
+# Prisma'ya yerel binary konumunu söyle
+ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/prisma/engines/libquery_engine.so.node
+
 # Bağımlılıkları yükle
 RUN npm install
 
-# Prisma binary'lerini manuel indir (timeout 10 dakika)
-RUN for i in 1 2 3 4 5; do \
-    echo "Prisma generate deneme $i..." && \
-    timeout 600 npx prisma generate && break || \
-    echo "Deneme $i başarısız, 30 saniye bekliyor..." && \
-    sleep 30; \
-    done
+# Prisma client oluştur (artık indirme yapmayacak, yerel dosyayı kullanacak)
+RUN npx prisma generate
 
 # Uygulama kodunu kopyala
 COPY . .
