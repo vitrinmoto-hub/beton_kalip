@@ -100,6 +100,7 @@ export default function SettingsPage() {
             email: formData.get('email') as string,
             address: formData.get('address') as string,
             whatsapp: formData.get('whatsapp') as string,
+            mapEmbedUrl: formData.get('mapEmbedUrl') as string,
             aboutTitle: formData.get('aboutTitle') as string,
             visionContent: formData.get('visionContent') as string,
             homeMetaTitle: formData.get('homeMetaTitle') as string,
@@ -273,6 +274,23 @@ export default function SettingsPage() {
                                         placeholder="Şirket adresi..."
                                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                                     />
+                                </div>
+
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                                        <MapPin size={16} />
+                                        Google Maps Embed URL
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="mapEmbedUrl"
+                                        defaultValue={settings.mapEmbedUrl || ''}
+                                        placeholder="https://www.google.com/maps/embed?pb=..."
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                                    />
+                                    <p className="text-xs text-gray-500 mt-1">
+                                        Google Maps'te konumunuzu bulun → Paylaş → Haritayı yerleştir → src="..." içindeki URL'i kopyalayın
+                                    </p>
                                 </div>
                             </div>
                         </div>
