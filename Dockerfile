@@ -70,14 +70,20 @@ COPY --from=builder /app/prisma ./prisma
 # Engine'lerin executable olduğundan emin ol
 RUN chmod +x /app/prisma/engines/* || true
 
+# Uploads klasörünü oluştur ve izinlerini ayarla
+RUN mkdir -p /app/public/uploads && chmod 777 /app/public/uploads
+
 # Startup script oluştur
 RUN echo '#!/bin/sh\n\
     echo "🚀 Starting application..."\n\
     echo "📊 Running database migrations..."\n\
     npx prisma db push --skip-generate || echo "Migration warning - continuing..."\n\
+    echo "📁 Creating uploads folder..."\n\
+    mkdir -p /app/public/uploads && chmod 777 /app/public/uploads\n\
     echo "✅ Database ready!"\n\
     exec npm start' > /app/start.sh && chmod +x /app/start.sh
 
 EXPOSE 3000
 
 CMD ["/app/start.sh"]
+
