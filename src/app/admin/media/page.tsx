@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Image as ImageIcon, Upload, X, Copy, Check } from 'lucide-react';
+import { getUploadedFiles } from '@/actions/media-actions';
 
 type MediaFile = {
     url: string;
@@ -20,9 +21,10 @@ export default function MediaPage() {
     }, []);
 
     const loadMediaFiles = async () => {
-        // In a real implementation, this would fetch from an API
-        // For now, we'll just show empty state
-        setMediaFiles([]);
+        const result = await getUploadedFiles();
+        if (result.success && result.data) {
+            setMediaFiles(result.data);
+        }
     };
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
