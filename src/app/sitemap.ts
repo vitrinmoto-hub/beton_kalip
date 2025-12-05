@@ -3,8 +3,7 @@ import { getProducts } from '@/actions/product-actions';
 import { getPosts } from '@/actions/blog-actions';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    // Change this to your actual production domain
-    const baseUrl = 'https://www.metalkalip.com.tr';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
     // 1. Static Routes
     const staticRoutes = [
