@@ -26,7 +26,7 @@ export async function login(email: string, password: string) {
         // Create session
         (await cookies()).set('auth_token', user.id, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: false, // HTTP için false, HTTPS eklendiğinde true yapılmalı
             maxAge: 60 * 60 * 24 * 7, // 1 week
             path: '/',
             sameSite: 'lax',
