@@ -65,8 +65,8 @@ export async function POST(request: NextRequest) {
         // Dosyayı kaydet
         await writeFile(filePath, buffer);
 
-        // Public URL'i döndür
-        const publicUrl = `/uploads/${fileName}`;
+        // API route üzerinden serve edilecek URL
+        const publicUrl = `/api/uploads/${fileName}`;
 
         return NextResponse.json({
             success: true,
