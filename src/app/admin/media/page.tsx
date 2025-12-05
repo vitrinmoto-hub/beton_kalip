@@ -63,9 +63,51 @@ export default function MediaPage() {
 
     const handleCopyUrl = (url: string) => {
         const fullUrl = `${window.location.origin}${url}`;
-        navigator.clipboard.writeText(fullUrl);
-        setCopiedUrl(url);
-        setTimeout(() => setCopiedUrl(null), 2000);
+
+        // Try modern API first
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(fullUrl)
+                .then(() => {
+                    setCopiedUrl(url);
+                    setTimeout(() => setCopiedUrl(null), 2000);
+                })
+                .catch((err) => {
+                    console.error('Clipboard API failed', err);
+                    fallbackCopy(fullUrl, url);
+                });
+        } else {
+            // Fallback for HTTP
+            fallbackCopy(fullUrl, url);
+        }
+    };
+
+    const fallbackCopy = (text: string, urlKey: string) => {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+
+        // Ensure it's not visible but part of DOM
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        textArea.style.top = "0";
+        document.body.appendChild(textArea);
+
+        textArea.focus();
+        textArea.select();
+
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                setCopiedUrl(urlKey);
+                setTimeout(() => setCopiedUrl(null), 2000);
+            } else {
+                alert('Kopyalama başarısız oldu. Lütfen manuel olarak kopyalayın: ' + text);
+            }
+        } catch (err) {
+            console.error('Fallback copy failed', err);
+            alert('Kopyalama başarısız oldu. Lütfen manuel olarak kopyalayın: ' + text);
+        }
+
+        document.body.removeChild(textArea);
     };
 
     const handleDelete = (url: string) => {
