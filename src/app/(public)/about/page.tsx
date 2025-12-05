@@ -22,9 +22,10 @@ export default async function AboutPage() {
                         <h2 className="text-3xl font-bold mb-6 text-[var(--color-dark)] dark:text-white">
                             {settings?.aboutTitle || 'Biz Kimiz?'}
                         </h2>
-                        <div className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed whitespace-pre-wrap">
-                            {settings?.aboutContent || 'Firmamız hakkında bilgi...'}
-                        </div>
+                        <div
+                            className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed prose prose-lg max-w-none"
+                            dangerouslySetInnerHTML={{ __html: settings?.aboutContent || '<p>Firmamız hakkında bilgi...</p>' }}
+                        />
                     </div>
                     <div className="bg-gray-200 dark:bg-gray-800 h-[400px] rounded-lg flex items-center justify-center text-gray-400 overflow-hidden">
                         {settings?.aboutImage ? (
