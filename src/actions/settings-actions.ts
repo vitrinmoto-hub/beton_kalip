@@ -67,7 +67,9 @@ export async function updateSettings(data: {
             },
         });
 
-        revalidatePath('/');
+        revalidatePath('/', 'layout');
+        revalidatePath('/about');
+        revalidatePath('/contact');
         revalidatePath('/admin/settings');
 
         return { success: true, data: settings };
