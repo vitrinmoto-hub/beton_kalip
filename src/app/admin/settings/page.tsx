@@ -29,6 +29,7 @@ type Settings = {
     visionContent: string | null;
     homeMetaTitle: string | null;
     homeMetaDescription: string | null;
+    copyrightText: string | null;
 };
 
 export default function SettingsPage() {
@@ -105,6 +106,7 @@ export default function SettingsPage() {
             visionContent: formData.get('visionContent') as string,
             homeMetaTitle: formData.get('homeMetaTitle') as string,
             homeMetaDescription: formData.get('homeMetaDescription') as string,
+            copyrightText: formData.get('copyrightText') as string,
         };
 
         const result = await updateSettings(data);
@@ -329,6 +331,29 @@ export default function SettingsPage() {
                                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                                 />
                                 <p className="text-xs text-gray-500 mt-1">Arama sonuçlarında görünecek açıklama (150-160 karakter önerilir)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Footer Settings */}
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <h3 className="text-lg font-bold mb-4 text-[var(--color-dark)]">
+                            Footer Ayarları
+                        </h3>
+
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Copyright Metni
+                                </label>
+                                <input
+                                    type="text"
+                                    name="copyrightText"
+                                    defaultValue={settings.copyrightText || ''}
+                                    placeholder="© 2024 Şirket Adı. Tüm hakları saklıdır."
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                                />
+                                <p className="text-xs text-gray-500 mt-1">Boş bırakılırsa otomatik oluşturulur</p>
                             </div>
                         </div>
                     </div>

@@ -55,6 +55,7 @@ export async function updateSettings(data: {
     visionContent?: string;
     homeMetaTitle?: string;
     homeMetaDescription?: string;
+    copyrightText?: string;
 }) {
     try {
         const settings = await prisma.settings.upsert({

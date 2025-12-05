@@ -86,7 +86,20 @@ export default async function Footer() {
                 </div>
 
                 <div className="border-t border-[var(--color-dark-light)] pt-8 text-center text-gray-500 text-sm">
-                    <p>&copy; {new Date().getFullYear()} {settings?.siteName || 'Beton Kalıp Firması'}. Tüm hakları saklıdır.</p>
+                    <p className="mb-2">
+                        {settings?.copyrightText || `© ${new Date().getFullYear()} ${settings?.siteName || 'Beton Kalıp Firması'}. Tüm hakları saklıdır.`}
+                    </p>
+                    <p className="text-gray-600">
+                        Coded by{' '}
+                        <a
+                            href="https://www.hasandurmus.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[var(--color-primary)] hover:text-white transition-colors"
+                        >
+                            Hasan Durmuş
+                        </a>
+                    </p>
                 </div>
             </div>
         </footer>

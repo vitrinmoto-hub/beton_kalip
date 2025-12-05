@@ -126,6 +126,9 @@ model Settings {
   homeMetaTitle       String?
   homeMetaDescription String?
   
+  // Footer
+  copyrightText       String?
+  
   updatedAt      DateTime @updatedAt
 }
 
