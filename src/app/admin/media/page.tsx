@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Image as ImageIcon, Upload, X, Copy, Check } from 'lucide-react';
-import { getUploadedFiles } from '@/actions/media-actions';
+import { getUploadedFiles, deleteUploadedFile } from '@/actions/media-actions';
 
 type MediaFile = {
     url: string;
@@ -110,10 +110,22 @@ export default function MediaPage() {
         document.body.removeChild(textArea);
     };
 
-    const handleDelete = (url: string) => {
-        if (confirm('Bu görseli silmek istediğinizden emin misiniz?')) {
-            setMediaFiles(mediaFiles.filter(file => file.url !== url));
-            // In a real implementation, this would also delete from server
+    const handleDelete = async (url: string) => {
+        if (!confirm('Bu görseli silmek istediğinizden emin misiniz?')) return;
+
+        const file = mediaFiles.find(f => f.url === url);
+        if (!file) return;
+
+        try {
+            const result = await deleteUploadedFile(file.fileName);
+            if (result.success) {
+                setMediaFiles(mediaFiles.filter(item => item.url !== url));
+            } else {
+                alert(result.error || 'Silme işlemi başarısız');
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+            alert('Bir hata oluştu');
         }
     };
 

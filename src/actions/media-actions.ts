@@ -1,6 +1,6 @@
 'use server';
 
-import { readdir } from 'fs/promises';
+import { readdir, unlink } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
 
@@ -33,5 +33,26 @@ export async function getUploadedFiles() {
     } catch (error) {
         console.error('Error reading uploads folder:', error);
         return { success: false, error: 'Dosyalar yüklenirken hata oluştu', data: [] };
+    }
+}
+
+export async function deleteUploadedFile(fileName: string) {
+    try {
+        // Security: Prevent directory traversal
+        if (fileName.includes('..') || fileName.includes('/') || fileName.includes('\\')) {
+            return { success: false, error: 'Geçersiz dosya adı' };
+        }
+
+        const filePath = join(process.cwd(), 'public', 'uploads', fileName);
+
+        if (existsSync(filePath)) {
+            await unlink(filePath);
+            return { success: true };
+        } else {
+            return { success: false, error: 'Dosya bulunamadı' };
+        }
+    } catch (error) {
+        console.error('Error deleting file:', error);
+        return { success: false, error: 'Dosya silinirken hata oluştu' };
     }
 }
